@@ -1,0 +1,51 @@
+# Set your Fortran compiler
+# This might be gfortran, or gfortran-mp-13 (assuming GCC v13). 
+FC = gfortran-mp-13
+
+# Set optimisation
+# -O0 = no optimisation (slow but accurate)
+# -O3 = aggressive optimisation (fast but might crash)
+# -O1, -O2 = linear interpolation between O0 and O3
+OPT = -O3
+
+# Debugging options
+# (Usually slows down execution, but are useful for debugging)
+# -fbounds-check = checks that no index is outside array range
+# -g -fbacktrace = gives precise information on where model crashed
+#DEBUG = -fbounds-check
+
+# Additional stuff
+# -fdefault-real-8 = set all reals to double precision if precision is not specified
+EXTRA = -fdefault-real-8
+
+# Flags to give to compiler
+FF = $(OPT) $(EXTRA) $(DEBUG) -J ./src/ -Dwith_netcdf
+
+# Location of netCDF install, i.e. where the include and lib are
+# You can find this by typing
+# nf-config --prefix
+NCDF_ROOT = /opt/local/
+
+# These are the external libraries to link against
+LIB = -L$(NCDF_ROOT)/lib -lnetcdf -lnetcdff
+
+# Objects to generate
+OBJ = src/mod_write_nc.o
+
+# These binaries will be compiled by default
+all: shallowwater_lab1.x shallowwater_lab3.x
+
+# Specify how to compile each binary (aka "target")
+shallowwater_lab1.x: shallowwater_lab1.F90 $(OBJ)
+	$(FC) $(FF) $(OBJ) -o shallowwater_lab1.x shallowwater_lab1.F90 $(LIB)
+
+shallowwater_lab3.x: shallowwater_lab3.F90 $(OBJ)
+	$(FC) $(FF) $(OBJ) -o shallowwater_lab3.x shallowwater_lab3.F90 $(LIB)
+
+# Our netCDF module is also a target
+src/mod_write_nc.o: src/mod_write_nc.f90
+	$(FC) $(FF) -I${NCDF_ROOT}/include -c -o src/mod_write_nc.o src/mod_write_nc.f90
+
+# make -f makefile.netcdf clean will do this, i.e. clean existing install
+clean:
+	rm -f *.x *.bin src/*.o src/*.mod *.nc *~ *\#

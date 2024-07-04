@@ -1,0 +1,16 @@
+
+FC = gfortran
+
+FF = -O3 -fdefault-real-8 -fbounds-check
+
+
+
+All: shallowwater_lab1.x
+
+shallowwater_lab1.x: shallowwater_lab1.F90
+	$(FC) $(FF) -o shallowwater_lab1.x shallowwater_lab1.F90
+
+
+
+clean:
+	rm -f *.x *.bin src/*.o src/*.mod *.nc *~ *\#

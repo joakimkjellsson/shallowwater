@@ -1,0 +1,20 @@
+  !!
+  &nsetup
+  !!
+  D0 = 4000.           !average depth
+  f0 = 1e-4            !Coriolis constant
+  beta = 1e-11         ! df/dy
+  alfa = 0.            ! dD/dy
+  g = 9.81             !gravity
+  gamma = 0.2          !Asselin coefficient
+  !!
+  imt = 201            !number of x-points
+  jmt = 101            !number of y-points
+  !!
+  Lx = 5e+6            !width of domain [m]
+  Ly = 2.5e+6          
+  tm = 8640000.         ! (60*60*24*100.)     !length of run [s]
+  !!
+  nsubcycles = 500
+  /
+  !!
