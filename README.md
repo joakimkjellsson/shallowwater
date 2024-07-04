@@ -6,6 +6,11 @@ The "nt" time steps are divided into "nsubcycles" steps. Thus, the model compute
 
 This model is intended as a minimal example of an atmosphere or ocean model. It is written in Fortran 90 with netCDF support. 
 
+Authors
+-------
+
+Joakim Kjellsson & Laurent Brodeau
+
 Prerequisites
 -------------
 
