@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.10)
+project(shallow_water_cgrid)
+
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Add the executable
+add_executable(shallow_water_cgrid main.cpp)
+
+# Find the NetCDF library
+find_package(NetCDF REQUIRED)
+
+# Link the NetCDF library to the executable
+target_link_libraries(shallow_water_cgrid PRIVATE NetCDF::NetCDF_C)
+
+# Include NetCDF headers
+target_include_directories(shallow_water_cgrid PRIVATE ${NetCDF_INCLUDE_DIRS})
+
+# Set optimization flags for the compiler
+# Example: High optimization level and native instructions
+# Note: This may not be good as it applies the same to all files in the project 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
+
+# Alternatively, apply specific optimization options to the target
+target_compile_options(shallow_water_cgrid PRIVATE -O3 -march=native -ffast-math)
